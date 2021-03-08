@@ -1,0 +1,166 @@
+#include <iostream>
+using namespace std;
+
+double Aritmatika();
+double Eksponensial();
+double Integral_riemann();
+double f1(double x) {
+        return x*x;
+    }
+double f2(double x) {
+        return x*x*x + 2*x - 3;
+    }
+double f3(double x) {
+        return x*x*x + 6*x*x - 7*x + 8;
+    }
+    
+
+int main()
+{
+   cout << "Selamat datang di kalkulator v1.0 \n";
+   start : 
+    int a = 0;
+    int pilihan;
+    cout << "[1] Aritmatika \n";
+    cout << "[2] Eksponensial \n";
+    cout << "[3] Integral Tentu \n";
+    cout << "Silakan pilih operasi yang ingin dilakukan : ";
+    cin >> pilihan;
+    
+    switch (pilihan) {
+      case 1:
+        Aritmatika();
+        break;
+      case 2:
+        Eksponensial();
+        break;
+      case 3:
+        Integral_riemann();
+        break;
+      default: 
+        cout << "Pilihan tidak tersedia \n";
+        break;
+    }
+    
+    cout << "Apakah ingin kembali ke menu utama (1/0)?  ";
+    cin >> a;
+    
+    if (a == 1) {
+        goto start;
+    }
+    else {
+        cout << "Terima Kasih";
+        return 0;
+    }
+}
+
+//Fungsi untuk operasi aritmatika
+double Aritmatika() {
+    double angka1;
+    double angka2;
+    char operation;
+    double hasil;
+
+    cout << "Masukkan angka ke 1 : ";
+    cin >> angka1;
+    cout << "Masukkan angka ke 2 : ";
+    cin >> angka2;
+    cout << "Masukkan operator (+,-,*,/) : ";
+    cin >> operation;
+    
+    switch(operation) {
+        case '+':
+          hasil = angka1+angka2;
+          cout << "Hasil dari operasi adalah " << hasil << "\n";
+          break;
+        case '-' :
+          hasil = angka1-angka2;
+          cout << "Hasil dari operasi adalah " << hasil << "\n";
+          break;
+        case '*' :
+          hasil = angka1*angka2;
+          cout << "Hasil dari operasi adalah " << hasil << "\n";
+          break;
+        case '/' :
+          hasil = angka1/angka2;
+          cout << "Hasil dari operasi adalah " << hasil << "\n";
+          break;
+        default :
+          cout << "Operasi tidak tersedia \n";
+          break;
+    }
+}
+
+//Fungsi untuk Eksponensial
+double Eksponensial() {
+    double x;
+    double y;
+    int i = 1;
+    
+    cout << "Masukkan angka yang ingin dipangkatkan : ";
+    cin >> x;
+    cout << "Masukkan pangkat : ";
+    cin >> y;
+    
+    double z = x;
+    while (i < y) {
+        x = x*z;
+        i++ ;
+    }
+    cout << "Hasil dari operasi adalah " << x << "\n";
+}
+
+//Fungsi untuk integral riemann
+double Integral_riemann() {
+    int choice,n;
+    double a,b,delta,fsum,hasil,h;
+    
+    cout << "Silakan pilih fungsi yang ingin digunakan : \n";
+    cout << "[1] F(x) = x^2 \n";
+    cout << "[2] F(x) = x^3 + 2x - 3 \n";
+    cout << "[3] F(x) = x^3 + 6x^2 - 7x + 8 \n";
+    cin >> choice;
+    
+    cout << "Masukkan batas bawah : \n";
+    cin >> a;
+    cout<< "Masukkan batas atas : \n";
+    cin >> b;
+    cout << "Masukkan jumlah trapesium yang diinginkan : \n";
+    cin >> n;
+    
+    delta = (b-a)/n;
+    h = delta/2;
+    double arr[n-1];
+    arr[0] = a + delta;
+    for (int i=1;i<n-1;i++){
+        arr[i] = arr[i-1] + delta;
+    }
+    fsum = 0;
+    
+    switch(choice) {
+        case 1:
+            for (int i = 0;i<n-1;i++) {
+            fsum = fsum + f1(arr[i]);
+            }
+    
+            hasil = h*f1(a) + 2*h*fsum + h*f1(b);
+            cout << "Hasil integral adalah " << hasil << "\n";
+            break;
+        case 2:
+            for (int i = 0;i<n-1;i++) {
+            fsum = fsum + f2(arr[i]);
+            }
+    
+            hasil = h*f2(a) + 2*h*fsum + h*f2(b);
+            cout << "Hasil integral adalah " << hasil << "\n";
+            break;
+        case 3:
+            for (int i = 0;i<n-1;i++) {
+            fsum = fsum + f3(arr[i]);
+            }
+    
+            hasil = h*f3(a) + 2*h*fsum + h*f3(b);
+            cout << "Hasil integral adalah " << hasil << "\n";
+            break;
+    }
+}
