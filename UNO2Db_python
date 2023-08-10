@@ -1,0 +1,33 @@
+import serial.tools.list_ports
+import MySQLdb
+dbConn = 
+MySQLdb.connect("mysql5045.site4now.net","a9073c_ihsanal","ihsanalfajri08","db_a
+9073c_ihsanal") or die ("could not connect to database")
+#open a cursor to the database
+cursor = dbConn.cursor()
+ports = serial.tools.list_ports.comports()
+serialInst = serial.Serial()
+portsList = []
+for onePort in ports:
+ portsList.append(str(onePort))
+ print(str(onePort))
+val = input("Select Port: COM")
+for x in range(0,len(portsList)):
+ if portsList[x].startswith("COM" + str(val)):
+ portVar = "COM" + str(val)
+ print(portVar)
+15
+serialInst.baudrate = 115200
+serialInst.port = portVar
+serialInst.open()
+while True:
+ if serialInst.in_waiting:
+ packet = serialInst.readline()
+ x = packet.decode('utf').rstrip('\n')
+ print(x)
+ try:
+ cursor.execute("INSERT INTO milling (ID,DATE) VALUES 
+(%s,CURRENT_TIMESTAMP)" %(x))
+ dbConn.commit() #commit the insert
+ except MySQLdb.IntegrityError:
+ print "failed to insert data"
