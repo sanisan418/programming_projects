@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Number Guessing Game</title>
+</head>
+<body>
+  <h1>Number Guessing Game</h1>
+  <p>Guess a number between 1 and 100:</p>
+  <input id="guessInput" type="number" min="1" max="100">
+  <button id="checkButton">Check</button>
+  <p id="result"></p>
+
+  <script>
+    const secretNumber = Math.floor(Math.random() * 100) + 1;
+    let attempts = 0;
+
+    const guessInput = document.getElementById('guessInput');
+    const checkButton = document.getElementById('checkButton');
+    const result = document.getElementById('result');
+
+    checkButton.addEventListener('click', () => {
+      const userGuess = parseInt(guessInput.value);
+
+      if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+        result.textContent = 'Please enter a valid number between 1 and 100.';
+      } else {
+        attempts++;
+
+        if (userGuess === secretNumber) {
+          result.textContent = `Congratulations! You guessed the number ${secretNumber} in ${attempts} attempts.`;
+        } else if (userGuess < secretNumber) {
+          result.textContent = 'Try a higher number.';
+        } else {
+          result.textContent = 'Try a lower number.';
+        }
+      }
+    });
+  </script>
+</body>
+</html>
